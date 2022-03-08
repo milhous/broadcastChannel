@@ -17,7 +17,7 @@ abstract class MethodBasic {
     // 配置信息
     protected _options: IBTGBroadcastChannelOptions = null;
     // 监听事件
-    protected _listener: (data: MessageEvent<any> | IBTGBroadcastChannelMessage | StorageEvent) => void = null;
+    protected _listener: (data: MessageEvent | IBTGBroadcastChannelMessage | StorageEvent) => void = null;
     // 子监听事件
     protected _sublistenersMap: Map<string, IBTGBroadcastChannelSet> = new Map();
     // 消息回调

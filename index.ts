@@ -1,6 +1,4 @@
 import { chooseMethod } from './methodChooser';
-import { fillOptionsWithDefaults } from './options';
-
 
 export class BTGBroadcastChannel {
     static VERSION = '1.0.0';
@@ -13,7 +11,7 @@ export class BTGBroadcastChannel {
     private _channel: any = null;
     // 起始时间
     private _time: number = null;
-    // messages集合
+    // 消息集合
     private _messagesMap: Map<string, IBTGBroadcastChannelMessage> = new Map();
 
     /**
@@ -22,7 +20,7 @@ export class BTGBroadcastChannel {
      */
     constructor(name: string, options: any = {}) {
         this._name = name;
-        this._options = fillOptionsWithDefaults(options);
+        this._options = this._fillOptionsWithDefaults(options);
 
         this._create();
     }
@@ -88,8 +86,6 @@ export class BTGBroadcastChannel {
             this._channel = new method();
             this._channel.init(this._name, this._options);
         }
-
-        console.log('BTGBroadcastChannel method:', method.type, this._options);
     }
 
     /**
@@ -101,12 +97,14 @@ export class BTGBroadcastChannel {
             this._time = timestamp;
         }
 
+        // 更新节流
         if (timestamp - this._time > this._options.throttle) {
             this._time = null;
 
             this._update();
         }
 
+        // 下一次重绘之前执行
         if (this._messagesMap.size) {
             window.requestAnimationFrame(this._loop.bind(this));
         }
@@ -119,5 +117,31 @@ export class BTGBroadcastChannel {
         }
 
         this._messagesMap.clear();
+    }
+
+    /**
+     * 获取配置信息
+     * @param {object} originalOptions 配置信息
+     * @return {IBTGBroadcastChannelOptions}
+     */
+    private _fillOptionsWithDefaults(originalOptions: any = {}): IBTGBroadcastChannelOptions {
+        const options = JSON.parse(JSON.stringify(originalOptions));
+
+        // 消息存活时间（Time To Live）
+        if (!('ttl' in options)) {
+            options.ttl = 1000 * 30;
+        }
+
+        // 轮询间隔时间
+        if (!('loop' in options)) {
+            options.loop = 150;
+        }
+
+        // 发送节流时间
+        if (!('throttle' in options)) {
+            options.throttle = 200;
+        }
+
+        return options;
     }
 }

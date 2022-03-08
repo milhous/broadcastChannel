@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "lib": ["WebWorker", "es2015", "es2017", "dom"],
+        "strict": false,
+        "experimentalDecorators": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "downlevelIteration": true,
+        "allowSyntheticDefaultImports": true
+    }
+}

@@ -16,7 +16,7 @@ export default class MethodBroadcastChannel extends MethodBasic {
 
     // 创建频道
     protected _createChannel(): void {
-        this._listener = (evt: MessageEvent<any>) => {
+        this._listener = (evt: MessageEvent): void => {
             const data: IBTGBroadcastChannelMessage = evt.data;
 
             // 判断是否是自己的消息
