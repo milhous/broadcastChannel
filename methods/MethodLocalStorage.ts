@@ -14,6 +14,7 @@ const getLocalStorage = (): Storage => {
         // if cookies are disabled. See
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1028153
     }
+    
     return localStorage;
 }
 
